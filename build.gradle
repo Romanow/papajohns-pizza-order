@@ -1,0 +1,44 @@
+plugins {
+    id "idea"
+    id "org.jetbrains.kotlin.jvm" version "1.9.25"
+    id "org.jlleitschuh.gradle.ktlint" version "12.1.1"
+}
+
+ext {
+    kotlinVersion = "1.9.25"
+    playwrightVersion = "1.53.0"
+    junitVersion = "5.11.0"
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+ktlint {
+    version.set("1.1.1")
+}
+
+repositories {
+    mavenCentral()
+}
+
+[compileKotlin, compileTestKotlin]*.kotlinOptions*.jvmTarget = "17"
+
+dependencies {
+    implementation "com.microsoft.playwright:playwright:$playwrightVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+    }
+}
