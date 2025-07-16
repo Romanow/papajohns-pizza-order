@@ -7,7 +7,7 @@ plugins {
 ext {
     kotlinVersion = "1.9.25"
     playwrightVersion = "1.53.0"
-    junitVersion = "5.11.0"
+    junitVersion = "5.13.3"
 }
 
 idea {
