@@ -47,6 +47,8 @@ jobs:
   publish-allure:
     name: Publish allure report
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     if: ${{ !cancelled() }}
     needs: build
     steps:
@@ -57,7 +59,6 @@ jobs:
 
       - name: Load test report history
         uses: actions/checkout@v4
-        if: always()
         continue-on-error: true
         with:
           ref: gh-pages
@@ -65,7 +66,6 @@ jobs:
 
       - name: Build test report
         uses: simple-elf/allure-report-action@v1.7
-        if: always()
         with:
           gh_pages: gh-pages
           allure_history: allure-history
@@ -73,7 +73,6 @@ jobs:
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4
-        if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
