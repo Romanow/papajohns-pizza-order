@@ -1,5 +1,6 @@
 package ru.romanow.playwright.tests
 
+import com.microsoft.playwright.Browser
 import com.microsoft.playwright.BrowserType.LaunchOptions
 import com.microsoft.playwright.Locator
 import com.microsoft.playwright.Locator.FilterOptions
@@ -11,6 +12,7 @@ import com.microsoft.playwright.junit.OptionsFactory
 import com.microsoft.playwright.junit.UsePlaywright
 import com.microsoft.playwright.options.AriaRole
 import com.microsoft.playwright.options.AriaRole.BUTTON
+import io.qameta.allure.Feature
 import org.junit.jupiter.api.Test
 import ru.romanow.playwright.utils.PropertiesHelper.Companion.get
 
@@ -18,7 +20,8 @@ import ru.romanow.playwright.utils.PropertiesHelper.Companion.get
 class PapaJohnsPizzaTest {
 
     @Test
-    fun orderPizzaSuccessTest(page: Page) {
+    @Feature("Заказ пиццы на сайте Papa Johns")
+    fun `when Order Italian Pizza then Success`(page: Page) {
         page.navigate("https://papajohns.ru/")
 
         closeLocationDialog(page)
@@ -41,25 +44,23 @@ class PapaJohnsPizzaTest {
             .first()
         selectedPizza.locator("picture").click()
 
-        page.locator("#modal").locator("xpath=.//div[text() = '$size']").click()
+        page.locator("#modal div:text('$size')").click()
 
-        page.locator("#modal").locator("[data-test-id='toggle_arrow']").click()
-        page.locator("#modal").locator("xpath=.//*[text() = '$border']").click()
+        page.locator("#modal div[data-test-id='toggle_arrow']").click()
+        page.locator("#modal div:text('$border')").click()
 
-        page.locator("#modal").locator(".ProductCardModal__button").click()
+        page.locator("#modal .ProductCardModal__button").click()
     }
 
     private fun makeOrder(page: Page) {
-        page.locator("[data-test-id='cart_actions']").click()
-        page.locator("xpath=//div[text() = 'Оформить заказ']").click()
-
-        assertThat(page.locator("xpath=//div[text() = 'Оформить заказ']")).isVisible()
+        page.locator("div[data-test-id='cart_actions']").click()
+        assertThat(page.locator("button:has-text('Оформить заказ')")).isVisible()
     }
 
     private fun closeLocationDialog(page: Page) {
         val locationDialog = page.locator("#modal")
         if (locationDialog.isVisible) {
-            locationDialog.locator("xpath=//div[text() = 'Да']").click()
+            locationDialog.locator("button:has-text('Да')").click()
         }
     }
 
@@ -69,9 +70,15 @@ class PapaJohnsPizzaTest {
     internal class BrowserOptions : OptionsFactory {
         override fun getOptions(): Options {
             return Options().apply {
+                contextOptions = Browser.NewContextOptions().apply {
+                    locale = "ru-RU"
+                    userAgent =
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+                };
+
                 headless = get("playwright.headless-mode", Boolean::class)
                 launchOptions = LaunchOptions().apply {
-                    slowMo = if (get("playwright.slow-mode", Boolean::class) == true) 1000.0 else 0.0
+                    slowMo = if (get("playwright.slow-mode", Boolean::class) == true) 500.0 else 0.0
                 }
             }
         }
