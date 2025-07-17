@@ -1,0 +1,2 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"broken","Thu Jul 17 11:07:38 GMT 2025","Thu Jul 17 11:08:26 GMT 2025","47757","","ru.romanow.playwright.tests.PapaJohnsPizzaTest","","ru.romanow.playwright.tests.PapaJohnsPizzaTest","when Order Italian Pizza then Success","when Order Italian Pizza then Success(Page)",""
