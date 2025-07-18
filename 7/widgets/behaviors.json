@@ -1,0 +1,1 @@
+{"total":2,"items":[{"uid":"7b0072afe4ef38efe2df2638301c7243","name":"Заказ пиццы на сайте Papa Johns","statistic":{"failed":0,"broken":1,"skipped":0,"passed":0,"unknown":0,"total":1}},{"uid":"aa2ab49c9cdad22a0c69219200c733ce","name":"Поиск сайта Papa Johns","statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1}}]}
